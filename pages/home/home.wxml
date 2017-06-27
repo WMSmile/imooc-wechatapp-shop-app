@@ -1,9 +1,23 @@
 <!--home.wxml-->
 <view class="">
-  <swiper>
 
+  <swiper class="swiper" indicator-dots autoplay>
+    <block wx:for="{{bannerArr}}">
+      <swiper-item class="banner-item">
+        <image mode="aspectFill" class="banner-item-img" src="{{item.img.url}}"></image>
+      </swiper-item>
+    </block>
   </swiper>
-  <view class="">
-    {{aaa}}
+
+  <view class="home-main">
+    <view class="home-main-theme">
+      <view class="home-main-header">精选主题</view>
+      <view class="theme-box">
+        <block wx:for="{{themeArr}}">
+          <image src="{{item.topicimg.url}}"></image>
+        </block>
+      </view>
+    </view>
+    <view class="home-main-product"></view>
   </view>
 </view>

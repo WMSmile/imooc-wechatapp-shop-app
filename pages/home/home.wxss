@@ -1,1 +1,9 @@
 /* home.wxss */
+.swiper{
+  height: 400rpx;
+  width: 100%;
+}
+.banner-item,.banner-item-img{
+  width: 100%;
+  height: 100%;
+}

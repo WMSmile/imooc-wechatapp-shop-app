@@ -14,7 +14,18 @@ Page({
     this._loadData();
   },
   _loadData: function(){
-    var id = 1;
-    var data = home.getBannerData(id);
+    home.getBannerData((res)=>{
+      this.setData({
+        bannerArr: res
+      });
+    });
+
+    home.getThemeData((res) => {
+      console.log(res)
+      this.setData({
+        themeArr: res
+      });
+    });
   }
+
 })
