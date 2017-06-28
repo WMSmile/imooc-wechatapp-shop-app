@@ -1,3 +1,4 @@
+<import src="../tpls/products/products-tpl.wxml"/>
 <!--home.wxml-->
 <view class="">
 
@@ -14,10 +15,18 @@
       <view class="home-main-header">精选主题</view>
       <view class="theme-box">
         <block wx:for="{{themeArr}}">
-          <image src="{{item.topicimg.url}}"></image>
+          <view wx:if="{{index == 2}}" class="theme-item big">
+            <image src="{{item.topicimg.url}}"></image>
+          </view>
+          <view wx:else class="theme-item"><image src="{{item.topicimg.url}}"></image></view>
         </block>
       </view>
     </view>
-    <view class="home-main-product"></view>
+    <view class="home-main-product">
+      <view class="home-main-header">最近新品</view>
+      <template is="products" data="{{products:productsArr}}"></template>
+    </view>
   </view>
+
+
 </view>

@@ -21,9 +21,14 @@ Page({
     });
 
     home.getThemeData((res) => {
-      console.log(res)
       this.setData({
         themeArr: res
+      });
+    });
+
+    home.getProductsData((res) => {
+      this.setData({
+       productsArr: res
       });
     });
   }
