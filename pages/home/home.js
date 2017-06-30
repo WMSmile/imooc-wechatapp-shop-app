@@ -8,11 +8,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
   },
+
   onLoad: function(){
     this._loadData();
   },
+
   _loadData: function(){
     home.getBannerData((res)=>{
       this.setData({
@@ -31,6 +32,21 @@ Page({
        productsArr: res
       });
     });
+  },
+
+  onProductsItemTap: function(event){
+    var id = home.getDataSet(event,'id');
+    wx.navigateTo({
+      url: '../product/product?id=' + id,
+    })
+  },
+
+  onThemesItemTap: function(event) {
+    var id = home.getDataSet(event, 'id');
+    var name = home.getDataSet(event, 'name');
+    wx.navigateTo({
+      url: '../theme/theme?id=' + id + '&name=' + name
+    })
   }
 
 })

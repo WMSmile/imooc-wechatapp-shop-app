@@ -1,10 +1,10 @@
-<import src="../tpls/products/products-tpl.wxml"/>
+<import src="../tpls/products/products-tpl.wxml" />
 <!--home.wxml-->
-<view class="">
+<view class="container">
 
   <swiper class="swiper" indicator-dots autoplay>
-    <block wx:for="{{bannerArr}}">
-      <swiper-item class="banner-item">
+    <block wx:for="{{bannerArr}}" wx:key="item">
+      <swiper-item class="banner-item" data-id="{{item.key_word}}" bindtap="onProductsItemTap">
         <image mode="aspectFill" class="banner-item-img" src="{{item.img.url}}"></image>
       </swiper-item>
     </block>
@@ -14,11 +14,19 @@
     <view class="home-main-theme">
       <view class="home-main-header">精选主题</view>
       <view class="theme-box">
-        <block wx:for="{{themeArr}}">
-          <view wx:if="{{index == 2}}" class="theme-item big">
+        <block wx:for="{{themeArr}}" wx:key="item">
+          <view wx:if="{{index == 2}}" class="theme-item big"
+            data-id="{{item.id}}"
+            data-name="{{item.name}}" 
+            bindtap="onThemesItemTap">
             <image src="{{item.topicimg.url}}"></image>
           </view>
-          <view wx:else class="theme-item"><image src="{{item.topicimg.url}}"></image></view>
+          <view wx:else class="theme-item" 
+            data-id="{{item.id}}" 
+            data-name="{{item.name}}" 
+            bindtap="onThemesItemTap">
+            <image src="{{item.topicimg.url}}"></image>
+          </view>
         </block>
       </view>
     </view>
