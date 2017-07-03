@@ -7,7 +7,7 @@
   "window": {
     "navigationBarBackgroundColor": "#ab956d",
     "navigationBarTextStyle": "#fff",
-    "navigationBarTitleText": "小程序",
+    "navigationBarTitleText": "零食商贩",
     "backgroundColor": "#eeeeee",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": false
