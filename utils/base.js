@@ -1,4 +1,5 @@
-import { Config } from "../utils/config.js";
+import { Config } from "config.js";
+import { Token } from "token.js";
 
 class Base{
 
@@ -6,7 +7,7 @@ class Base{
     this.baseRequestUrl = Config.restUrl;
   }
 
-  request(params) {
+  request(params, noRefetch) {
     var url = this.baseRequestUrl + params.url
     wx.request({
       url: url,
@@ -17,14 +18,35 @@ class Base{
       },
       method: params.type || "GET",
       dataType: '',
-      success: function(res) {
-        params.sCallback && params.sCallback(res.data);
+      success: (res) => {
+        var code = res.statusCode.toString();
+        var startChar = code.charAt(0);
+        if (startChar == "2"){
+          params.sCallback && params.sCallback(res.data);
+        }
+        else{
+          if(code == '401'){
+            if (!noRefetch){
+              this._refetch(params);
+            }
+          }
+          if (noRefetch){
+            params.eCallback && params.eCallback(res.data);
+          }
+        }
       },
-      fail: function(err) {
+      fail: (err) =>  {
         console.log(err);
       },
-      complete: function(res) {},
+      complete: (res) => {}
     })
+  }
+
+  _refetch(params){
+    var token = new Token();
+    token.getTokenFromServer((token) => {
+      this.request(params,true);
+    });
   }
 
   // 获取元素上的绑定的值
