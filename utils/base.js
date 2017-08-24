@@ -8,7 +8,7 @@ class Base{
   }
 
   request(params, noRefetch) {
-    var url = this.baseRequestUrl + params.url
+    var url = this.baseRequestUrl + params.url;
     wx.request({
       url: url,
       data: params.data,
