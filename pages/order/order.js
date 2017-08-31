@@ -10,19 +10,29 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    id:null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var from = options.from;
+    if (from == "cart"){
+      this._fromCart(options.account);
+    }
+    if (from == "order"){
+      this._fromOrder(options.id);
+    }
+  },
+
+  _fromCart: function (account){
     var productsArr;
-    this.data.account = options.account;
+    this.data.account = account;
     productsArr = cart.getCartDataFromLocal(true);
     this.setData({
       productsArr: productsArr,
-      account: options.account,
+      account: account,
       orderStatus: 0
     });
     // 显示收货地址
@@ -30,6 +40,31 @@ Page({
       this._bindAddressInfo(res);
     });
   },
+
+  _fromOrder:function(id){
+    if (id) {
+      var that = this;
+      //下单后，支付成功或者失败后，点左上角返回时能够更新订单状态 所以放在onshow中
+      var id = id;
+      order.getOrderInfoById(id, (data) => {
+        that.setData({
+          orderStatus: data.status,
+          productsArr: data.snap_items,
+          account: data.total_price,
+          basicInfo: {
+            orderTime: data.create_time,
+            orderNo: data.order_no
+          },
+        });
+
+        // 快照地址
+        var addressInfo = data.snap_address;
+        addressInfo.totalDetail = address.setAddressInfo(addressInfo);
+        that._bindAddressInfo(addressInfo);
+      });
+    }
+  },
+
   editAddress: function(event){
     wx.chooseAddress({
       success:(res) => {
@@ -191,26 +226,8 @@ Page({
     });
   },
   onShow: function () {
-    if (this.data.id) {
-      var that = this;
-      //下单后，支付成功或者失败后，点左上角返回时能够更新订单状态 所以放在onshow中
-      var id = this.data.id;
-      order.getOrderInfoById(id, (data) => {
-        that.setData({
-          orderStatus: data.status,
-          productsArr: data.snap_items,
-          account: data.total_price,
-          basicInfo: {
-            orderTime: data.create_time,
-            orderNo: data.order_no
-          },
-        });
-
-        // 快照地址
-        var addressInfo = data.snap_address;
-        addressInfo.totalDetail = address.setAddressInfo(addressInfo);
-        that._bindAddressInfo(addressInfo);
-      });
+    if (this.data.id){
+      this._fromOrder(this.data.id);
     }
   }
 })
